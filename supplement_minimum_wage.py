@@ -5,11 +5,10 @@ from loguru import logger
 from openpyxl import load_workbook
 
 
-def supplement_minimum_wage():
+def supplement_minimum_wage(data_mounts):
     """Доплата до МРОТ"""
 
     file_dog = "data/sample/Доплата_до_МРОТ.docx"
-    data_mounts = "январь"
 
     def record_data_salary_downtime_week():
         """Заполнение приказа"""
@@ -99,7 +98,3 @@ def supplement_minimum_wage():
 
     property_parsing()
     record_data_salary_downtime_week()
-
-
-if __name__ == '__main__':
-    supplement_minimum_wage()
