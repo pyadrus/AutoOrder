@@ -1,8 +1,8 @@
-import sqlite3
-
 from docxtpl import DocxTemplate
 from loguru import logger
 from openpyxl import load_workbook
+
+from database import opening_the_database, get_data_from_db
 
 
 def supplement_for_achievements_in_work(data_mounts, file_dog):
@@ -10,7 +10,7 @@ def supplement_for_achievements_in_work(data_mounts, file_dog):
 
     def record_data_salary_downtime_week():
         """Заполнение приказа"""
-        doc = DocxTemplate(file_dog)
+        doc = DocxTemplate(f"data/sample/{file_dog}")
 
         # Получаем данные из базы данных
         rows = get_data_from_db()
@@ -22,21 +22,7 @@ def supplement_for_achievements_in_work(data_mounts, file_dog):
         }
 
         doc.render(context)
-        doc.save(f"data/Доплата_за_высокие_достижения_в_труде_{data_mounts}.docx")
-
-    def opening_the_database():
-        """Открытие базы данных"""
-        conn = sqlite3.connect('data/data.db')  # Создаем соединение с базой данных
-        cursor = conn.cursor()
-        return conn, cursor
-
-    def get_data_from_db():
-        """Извлечение данных из базы данных"""
-        conn, cursor = opening_the_database()
-        cursor.execute('SELECT * FROM data')
-        rows = cursor.fetchall()  # Получаем все строки из таблицы
-        conn.close()
-        return rows
+        doc.save(f"data/{data_mounts}/{file_dog}")
 
     def prepare_table_data(rows):
         """Подготовка данных для таблицы"""
