@@ -5,10 +5,8 @@ from loguru import logger
 from openpyxl import load_workbook
 
 
-def supplement_for_achievements_in_work(data_mounts):
+def supplement_for_achievements_in_work(data_mounts, file_dog):
     """Доплата за высокие достижения в работе"""
-
-    file_dog = "data/sample/Доплата_за_высокие_достижения_в_труде.docx"
 
     def record_data_salary_downtime_week():
         """Заполнение приказа"""

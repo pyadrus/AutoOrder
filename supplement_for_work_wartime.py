@@ -5,10 +5,8 @@ from loguru import logger
 from openpyxl import load_workbook
 
 
-def supplement_for_work_wartime(data_mounts):
+def supplement_for_work_wartime(data_mounts, file_dog):
     """Доплата за работу в военное время"""
-
-    file_dog = "data/sample/Доплата_за_работу_в_военное_время.docx"
 
     def record_data_salary_downtime_week():
         """Заполнение приказа"""

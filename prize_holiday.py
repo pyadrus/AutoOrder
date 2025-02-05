@@ -5,10 +5,8 @@ from loguru import logger
 from openpyxl import load_workbook
 
 
-def prize_holiday(data_mounts):
+def prize_holiday(data_mounts, file_dog):
     """Премия к празднику"""
-
-    file_dog = "data/sample/Премия.docx"
 
     def record_data_salary_downtime_week():
         """Заполнение приказа"""
