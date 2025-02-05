@@ -41,7 +41,7 @@ def supplement_for_work_wartime(data_mounts, file_dog):
         try:
             conn, cursor = opening_the_database()
             # Открываем выбор файла Excel для чтения данных
-            workbook = load_workbook(filename='data/164.xlsx')  # Загружаем выбранный файл Excel
+            workbook = load_workbook(filename='data/initial_data/01_25/164.xlsx')  # Загружаем выбранный файл Excel
             sheet = workbook.active
 
             # Создаем таблицу в базе данных, если она еще не существует

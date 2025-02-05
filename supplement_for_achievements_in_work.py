@@ -41,7 +41,7 @@ def supplement_for_achievements_in_work(data_mounts, file_dog):
         try:
             conn, cursor = opening_the_database()
             # Открываем выбор файла Excel для чтения данных
-            workbook = load_workbook(filename='data/124.xlsx')  # Загружаем выбранный файл Excel
+            workbook = load_workbook(filename='data/initial_data/01_25/124.xlsx')  # Загружаем выбранный файл Excel
             sheet = workbook.active
 
             # Создаем таблицу в базе данных, если она еще не существует
