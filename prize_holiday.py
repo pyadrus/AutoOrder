@@ -5,8 +5,13 @@ from openpyxl import load_workbook
 from database import opening_the_database, get_data_from_db
 
 
-def prize_holiday(data_mounts, file_dog):
-    """Премия к празднику"""
+def prize_holiday(data_mounts, file_dog, number_month):
+    """
+    Премия к празднику
+    :param data_mounts: месяц, например январь или февраль
+    :param file_dog: название файла шаблона, например Доплата_за_высокие_достижения_в_труде.docx
+    :param number_month: номер месяца для исходных данных, например январь 01_25 или февраль 02_25
+    """
 
     def record_data_salary_downtime_week():
         """Заполнение приказа"""
@@ -41,7 +46,8 @@ def prize_holiday(data_mounts, file_dog):
         try:
             conn, cursor = opening_the_database()
             # Открываем выбор файла Excel для чтения данных
-            workbook = load_workbook(filename='data/initial_data/01_25/410.xlsx')  # Загружаем выбранный файл Excel
+            workbook = load_workbook(
+                filename=f'data/initial_data/{number_month}/410.xlsx')  # Загружаем выбранный файл Excel
             sheet = workbook.active
 
             # Создаем таблицу в базе данных, если она еще не существует
@@ -76,6 +82,11 @@ def prize_holiday(data_mounts, file_dog):
             # Сохраняем изменения в базе данных и закрываем соединение
             conn.commit()
             conn.close()
+
+        except FileNotFoundError:
+            logger.error(f"Файл не найден: {number_month}")
+            return
+
         except Exception as e:
             logger.exception(e)
 
