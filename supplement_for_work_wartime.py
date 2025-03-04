@@ -3,6 +3,7 @@ from loguru import logger
 from openpyxl import load_workbook
 
 from database import opening_the_database, get_data_from_db
+from full_name_of_professions import full_name_of_professions
 
 
 def supplement_for_work_wartime(data_mounts, file_dog, number_month):
@@ -46,14 +47,10 @@ def supplement_for_work_wartime(data_mounts, file_dog, number_month):
         try:
             conn, cursor = opening_the_database()
             # Открываем выбор файла Excel для чтения данных
-            workbook = load_workbook(
-                filename=f'data/initial_data/{number_month}/164.xlsx')  # Загружаем выбранный файл Excel
+            workbook = load_workbook(filename=f'data/initial_data/{number_month}/164.xlsx')  # Загружаем выбранный файл Excel
             sheet = workbook.active
-
             # Создаем таблицу в базе данных, если она еще не существует
-            cursor.execute(
-                'CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)')
-
+            cursor.execute('CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)')
             cursor.execute('DELETE FROM data')
             conn.commit()  # сохранить изменения
 
@@ -67,13 +64,13 @@ def supplement_for_work_wartime(data_mounts, file_dog, number_month):
                         profession = row[5]  # profession - профессия,
                         percent = row[11]  # percent - процент
 
+                        profession = full_name_of_professions.get(profession, profession)  # Получаем полное название профессии
+                        print(profession)
                         # Логируем данные для отладки
-                        logger.info(
-                            f'Данные для вставки: {table_number}, {surname_name_patronymic}, {profession}, {percent}')
+                        logger.info(f'Данные для вставки: {table_number}, {surname_name_patronymic}, {profession}, {percent}')
 
                         # Вставляем данные в таблицу
-                        cursor.execute('INSERT INTO data VALUES (?, ?, ?, ?)',
-                                       (table_number, surname_name_patronymic, profession, percent))
+                        cursor.execute('INSERT INTO data VALUES (?, ?, ?, ?)', (table_number, surname_name_patronymic, profession, percent))
                     else:
                         logger.warning(f"Строка содержит недостаточно данных: {row}")
                 except Exception as e:

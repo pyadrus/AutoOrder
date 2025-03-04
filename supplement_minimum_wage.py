@@ -3,6 +3,7 @@ from loguru import logger
 from openpyxl import load_workbook
 
 from database import opening_the_database, get_data_from_db
+from full_name_of_professions import full_name_of_professions
 
 
 def supplement_minimum_wage(data_mounts, file_dog, number_month):
@@ -67,6 +68,10 @@ def supplement_minimum_wage(data_mounts, file_dog, number_month):
                         surname_name_patronymic = row[1]  # surname_name_patronymic - фамилия,
                         profession = row[3]  # profession - профессия,
                         percent = row[5]  # percent - сумма выплаты
+
+                        profession = full_name_of_professions.get(profession,
+                                                                  profession)  # Получаем полное название профессии
+                        print(profession)
 
                         # Логируем данные для отладки
                         logger.info(
