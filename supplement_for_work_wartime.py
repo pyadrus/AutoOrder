@@ -58,7 +58,7 @@ def supplement_for_work_wartime(data_mounts, file_dog, number_month):
             conn.commit()  # сохранить изменения
 
             # Считываем данные из колонок и вставляем их в базу данных
-            for row in sheet.iter_rows(min_row=3, max_row=84, values_only=True):
+            for row in sheet.iter_rows(min_row=3, max_row=102, values_only=True):
                 try:
                     # Проверяем, что строка содержит достаточно данных
                     if len(row) > 11:  # Убедимся, что в строке есть хотя бы 12 столбцов
