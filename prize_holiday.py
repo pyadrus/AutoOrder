@@ -59,7 +59,7 @@ def prize_holiday(data_mounts, file_dog, number_month):
             conn.commit()  # сохранить изменения
 
             # Считываем данные из колонок и вставляем их в базу данных
-            for row in sheet.iter_rows(min_row=6, max_row=108, values_only=True):
+            for row in sheet.iter_rows(min_row=6, max_row=110, values_only=True):
                 try:
                     # Проверяем, что строка содержит достаточно данных
                     if len(row) > 6:  # Убедимся, что в строке есть хотя бы 12 столбцов

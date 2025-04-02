@@ -47,15 +47,17 @@ def supplement_for_work_wartime(data_mounts, file_dog, number_month):
         try:
             conn, cursor = opening_the_database()
             # Открываем выбор файла Excel для чтения данных
-            workbook = load_workbook(filename=f'data/initial_data/{number_month}/164.xlsx')  # Загружаем выбранный файл Excel
+            workbook = load_workbook(
+                filename=f'data/initial_data/{number_month}/164.xlsx')  # Загружаем выбранный файл Excel
             sheet = workbook.active
             # Создаем таблицу в базе данных, если она еще не существует
-            cursor.execute('CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)')
+            cursor.execute(
+                'CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)')
             cursor.execute('DELETE FROM data')
             conn.commit()  # сохранить изменения
 
             # Считываем данные из колонок и вставляем их в базу данных
-            for row in sheet.iter_rows(min_row=3, max_row=102, values_only=True):
+            for row in sheet.iter_rows(min_row=3, max_row=103, values_only=True):
                 try:
                     # Проверяем, что строка содержит достаточно данных
                     if len(row) > 11:  # Убедимся, что в строке есть хотя бы 12 столбцов
@@ -64,13 +66,16 @@ def supplement_for_work_wartime(data_mounts, file_dog, number_month):
                         profession = row[5]  # profession - профессия,
                         percent = row[11]  # percent - процент
 
-                        profession = full_name_of_professions.get(profession, profession)  # Получаем полное название профессии
+                        profession = full_name_of_professions.get(profession,
+                                                                  profession)  # Получаем полное название профессии
                         print(profession)
                         # Логируем данные для отладки
-                        logger.info(f'Данные для вставки: {table_number}, {surname_name_patronymic}, {profession}, {percent}')
+                        logger.info(
+                            f'Данные для вставки: {table_number}, {surname_name_patronymic}, {profession}, {percent}')
 
                         # Вставляем данные в таблицу
-                        cursor.execute('INSERT INTO data VALUES (?, ?, ?, ?)', (table_number, surname_name_patronymic, profession, percent))
+                        cursor.execute('INSERT INTO data VALUES (?, ?, ?, ?)',
+                                       (table_number, surname_name_patronymic, profession, percent))
                     else:
                         logger.warning(f"Строка содержит недостаточно данных: {row}")
                 except Exception as e:
