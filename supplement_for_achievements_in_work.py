@@ -70,8 +70,6 @@ def supplement_for_achievements_in_work(data_mounts, file_dog, number_month):
 
                         profession = full_name_of_professions.get(profession,
                                                                   profession)  # Получаем полное название профессии
-                        print(profession)
-
                         # Логируем данные для отладки
                         logger.info(
                             f'Данные для вставки: {table_number}, {surname_name_patronymic}, {profession}, {percent}')

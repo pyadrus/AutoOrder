@@ -70,7 +70,6 @@ def prize_holiday(data_mounts, file_dog, number_month):
 
                         profession = full_name_of_professions.get(profession,
                                                                   profession)  # Получаем полное название профессии
-                        print(profession)
 
                         # Логируем данные для отладки
                         logger.info(
