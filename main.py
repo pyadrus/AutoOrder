@@ -1,9 +1,7 @@
-from loguru import \
-    logger  # Логирование https://loguru.readthedocs.io/en/stable/overview.html
+from loguru import logger  # Логирование https://loguru.readthedocs.io/en/stable/overview.html
 
 from prize_holiday import prize_holiday
-from supplement_for_achievements_in_work import \
-    supplement_for_achievements_in_work
+from supplement_for_achievements_in_work import supplement_for_achievements_in_work
 from supplement_for_work_wartime import supplement_for_work_wartime
 from supplement_minimum_wage import supplement_minimum_wage
 
