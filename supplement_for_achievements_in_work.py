@@ -52,9 +52,7 @@ def supplement_for_achievements_in_work(data_mounts, file_dog, year="2025"):
             workbook = load_workbook(filename=excel_path)
             sheet = workbook.active
 
-            cursor.execute(
-                "CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)"
-            )
+            cursor.execute("CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)")
             cursor.execute("DELETE FROM data")
             conn.commit()
 
@@ -72,10 +70,7 @@ def supplement_for_achievements_in_work(data_mounts, file_dog, year="2025"):
                             f"Вставка: {table_number}, {surname_name_patronymic}, {profession}, {percent}"
                         )
 
-                        cursor.execute(
-                            "INSERT INTO data VALUES (?, ?, ?, ?)",
-                            (table_number, surname_name_patronymic, profession, percent),
-                        )
+                        cursor.execute("INSERT INTO data VALUES (?, ?, ?, ?)", (table_number, surname_name_patronymic, profession, percent),)
                     else:
                         logger.warning(f"Строка пустая или неполная: {row}")
                 except Exception as e:

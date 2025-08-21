@@ -1,17 +1,17 @@
 from docxtpl import DocxTemplate
 from loguru import logger
 from openpyxl import load_workbook
-
+import os
 from database import opening_the_database, get_data_from_db
 from full_name_of_professions import full_name_of_professions
 
 
-def prize_holiday(data_mounts, file_dog, number_month):
+def prize_holiday(data_mounts, file_dog, year="2025"):
     """
     Премия к празднику
-    :param data_mounts: месяц, например 01 или 02
-    :param file_dog: название файла шаблона, например Доплата_за_высокие_достижения_в_труде.docx
-    :param number_month: номер месяца для исходных данных, например 01 01 или 02 02
+    :param data_mounts: месяц, например "01" или "08"
+    :param file_dog: название файла шаблона, например "Доплата_до_МРОТ.docx"
+    :param year: год (по умолчанию 2025)
     """
 
     def record_data_salary_downtime_week():
@@ -27,28 +27,33 @@ def prize_holiday(data_mounts, file_dog, number_month):
             "table_data": table_data  # Передаем данные для таблицы
         }
 
+        output_dir = f"data/{year}/output/{data_mounts}"
+        os.makedirs(output_dir, exist_ok=True)  # создаем папку, если её нет
+
+        output_path = os.path.join(output_dir, file_dog)
         doc.render(context)
-        doc.save(f"data/2025/output/{data_mounts}/{file_dog}")
+        doc.save(output_path)
+        logger.info(f"Файл сохранён: {output_path}")
 
     def prepare_table_data(rows):
         """Подготовка данных для таблицы"""
-        table_data = []
-        for row in rows:
-            table_data.append({
+        return [
+            {
                 "table_number": row[0],  # Табельный номер
                 "surname_name_patronymic": row[1],  # ФИО
                 "profession": row[2],  # Профессия
-                "percent": row[3]  # Процент
-            })
-        return table_data
+                "percent": row[3]  # Сумма выплаты
+            }
+            for row in rows
+        ]
 
     def property_parsing():
         """Парсинг данных"""
         try:
             conn, cursor = opening_the_database()
+            excel_path = f"data/{year}/input/{data_mounts}/130.xlsx"
             # Открываем выбор файла Excel для чтения данных
-            workbook = load_workbook(
-                filename=f'data/2025/input/{number_month}/410.xlsx')  # Загружаем выбранный файл Excel
+            workbook = load_workbook(filename=excel_path)
             sheet = workbook.active
 
             # Создаем таблицу в базе данных, если она еще не существует
@@ -71,15 +76,15 @@ def prize_holiday(data_mounts, file_dog, number_month):
                         profession = full_name_of_professions.get(profession,
                                                                   profession)  # Получаем полное название профессии
 
-                        # Логируем данные для отладки
                         logger.info(
-                            f'Данные для вставки: {table_number}, {surname_name_patronymic}, {profession}, {percent}')
+                            f"Вставка: {table_number}, {surname_name_patronymic}, {profession}, {percent}"
+                        )
 
                         # Вставляем данные в таблицу
                         cursor.execute('INSERT INTO data VALUES (?, ?, ?, ?)',
                                        (table_number, surname_name_patronymic, profession, percent))
                     else:
-                        logger.warning(f"Строка содержит недостаточно данных: {row}")
+                        logger.warning(f"Строка пустая или неполная: {row}")
                 except Exception as e:
                     logger.error(f"Ошибка при обработке строки {row}: {e}")
 
@@ -88,7 +93,7 @@ def prize_holiday(data_mounts, file_dog, number_month):
             conn.close()
 
         except FileNotFoundError:
-            logger.error(f"Файл не найден: {number_month}")
+            logger.error(f"Excel не найден: {excel_path}")
             return
 
         except Exception as e:
