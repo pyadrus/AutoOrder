@@ -32,9 +32,10 @@ def main():
     # Заполнение приказов
     for month_num, month_info in months.items():
         logger.debug(f"Обработка месяца: {month_num} - {month_info[1]}")
-
+        name_month = month_info[1]
         logger.debug("Доплата за высокие достижения в труде")  # Доплата за высокие достижения в работе
         supplement_for_achievements_in_work(
+            name_month = name_month,
             data_mounts=month_num,  # Месяц
             file_dog="Доплата_за_высокие_достижения_в_труде.docx",  # Файл
             year="2025"
@@ -42,6 +43,7 @@ def main():
 
         logger.debug("Доплата до МРОТ")  # Доплата до МРОТ
         supplement_minimum_wage(
+            name_month=name_month,
             data_mounts=month_num,
             file_dog="Доплата_до_МРОТ.docx",
             year="2025"
@@ -49,6 +51,7 @@ def main():
 
         logger.debug("Доплата за работу в военное время")  # Доплата за работу в военное время
         supplement_for_work_wartime(
+            name_month=name_month,
             data_mounts=month_num,
             file_dog="Доплата_за_работу_в_военное_время.docx",
             year="2025"
@@ -56,6 +59,7 @@ def main():
 
         logger.debug("Премия к празднику")  # Премия к празднику
         prize_holiday(
+            name_month=name_month,
             data_mounts=month_num,
             file_dog="Премия.docx",
             year="2025"

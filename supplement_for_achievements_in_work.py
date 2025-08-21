@@ -6,9 +6,10 @@ from database import opening_the_database, get_data_from_db
 from full_name_of_professions import full_name_of_professions
 
 
-def supplement_for_achievements_in_work(data_mounts, file_dog, year="2025"):
+def supplement_for_achievements_in_work(name_month, data_mounts, file_dog, year="2025"):
     """
     Доплата за высокие достижения в работе
+    :param name_month: месяц, например "Август"
     :param data_mounts: месяц, например "08"
     :param file_dog: шаблон docx
     :param year: год (по умолчанию 2025)
@@ -22,7 +23,7 @@ def supplement_for_achievements_in_work(data_mounts, file_dog, year="2025"):
         table_data = prepare_table_data(rows)
 
         context = {
-            "data_mounts": f" {data_mounts} ",
+            "data_mounts": f" {name_month} ",
             "table_data": table_data
         }
 
@@ -52,7 +53,8 @@ def supplement_for_achievements_in_work(data_mounts, file_dog, year="2025"):
             workbook = load_workbook(filename=excel_path)
             sheet = workbook.active
 
-            cursor.execute("CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)")
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS data (table_number, surname_name_patronymic, profession, percent)")
             cursor.execute("DELETE FROM data")
             conn.commit()
 
@@ -70,7 +72,8 @@ def supplement_for_achievements_in_work(data_mounts, file_dog, year="2025"):
                             f"Вставка: {table_number}, {surname_name_patronymic}, {profession}, {percent}"
                         )
 
-                        cursor.execute("INSERT INTO data VALUES (?, ?, ?, ?)", (table_number, surname_name_patronymic, profession, percent),)
+                        cursor.execute("INSERT INTO data VALUES (?, ?, ?, ?)",
+                                       (table_number, surname_name_patronymic, profession, percent), )
                     else:
                         logger.warning(f"Строка пустая или неполная: {row}")
                 except Exception as e:

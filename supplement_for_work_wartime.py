@@ -7,9 +7,10 @@ from database import get_data_from_db, opening_the_database
 from full_name_of_professions import full_name_of_professions
 
 
-def supplement_for_work_wartime(data_mounts, file_dog, year="2025"):
+def supplement_for_work_wartime(name_month, data_mounts, file_dog, year="2025"):
     """
     Доплата за работу в военное время
+    :param name_month: название месяца, например "Январь"
     :param data_mounts: месяц, например "01" или "08"
     :param file_dog: шаблон Word, например "Доплата_за_работу_в_военное_время.docx"
     :param year: год (по умолчанию 2025)
@@ -24,7 +25,7 @@ def supplement_for_work_wartime(data_mounts, file_dog, year="2025"):
             table_data = prepare_table_data(rows)
 
             context = {
-                "data_mounts": f" {data_mounts} ",
+                "data_mounts": f" {name_month} ",
                 "table_data": table_data,
             }
 
@@ -43,10 +44,10 @@ def supplement_for_work_wartime(data_mounts, file_dog, year="2025"):
         """Подготовка данных для таблицы"""
         return [
             {
-                "table_number": row[0],              # Табельный номер
-                "surname_name_patronymic": row[1],   # ФИО
-                "profession": row[2],                # Профессия
-                "percent": row[3],                   # Процент
+                "table_number": row[0],  # Табельный номер
+                "surname_name_patronymic": row[1],  # ФИО
+                "profession": row[2],  # Профессия
+                "percent": row[3],  # Процент
             }
             for row in rows
         ]

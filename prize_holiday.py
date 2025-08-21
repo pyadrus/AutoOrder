@@ -6,9 +6,10 @@ from database import opening_the_database, get_data_from_db
 from full_name_of_professions import full_name_of_professions
 
 
-def prize_holiday(data_mounts, file_dog, year="2025"):
+def prize_holiday(name_month, data_mounts, file_dog, year="2025"):
     """
     Премия к празднику
+    :param name_month: название месяца, например "Январь"
     :param data_mounts: месяц, например "01" или "08"
     :param file_dog: название файла шаблона, например "Доплата_до_МРОТ.docx"
     :param year: год (по умолчанию 2025)
@@ -23,7 +24,7 @@ def prize_holiday(data_mounts, file_dog, year="2025"):
         table_data = prepare_table_data(rows)
 
         context = {
-            "data_mounts": f" {data_mounts} ",
+            "data_mounts": f" {name_month} ",
             "table_data": table_data  # Передаем данные для таблицы
         }
 
