@@ -9,9 +9,9 @@ from full_name_of_professions import full_name_of_professions
 def supplement_for_work_wartime(data_mounts, file_dog, number_month):
     """
     Доплата за работу в военное время
-    :param data_mounts: месяц, например январь или февраль
+    :param data_mounts: месяц, например 01 или 02
     :param file_dog: название файла шаблона, например Доплата_за_высокие_достижения_в_труде.docx
-    :param number_month: номер месяца для исходных данных, например январь 01_25 или февраль 02_25
+    :param number_month: номер месяца для исходных данных, например 01 01_25 или 02 02_25
     """
 
     def record_data_salary_downtime_week():
