@@ -28,7 +28,7 @@ def prize_holiday(data_mounts, file_dog, number_month):
         }
 
         doc.render(context)
-        doc.save(f"data/{data_mounts}/{file_dog}")
+        doc.save(f"data/2025/output/{data_mounts}/{file_dog}")
 
     def prepare_table_data(rows):
         """Подготовка данных для таблицы"""
@@ -48,7 +48,7 @@ def prize_holiday(data_mounts, file_dog, number_month):
             conn, cursor = opening_the_database()
             # Открываем выбор файла Excel для чтения данных
             workbook = load_workbook(
-                filename=f'data/initial_data/{number_month}/410.xlsx')  # Загружаем выбранный файл Excel
+                filename=f'data/2025/input/{number_month}/410.xlsx')  # Загружаем выбранный файл Excel
             sheet = workbook.active
 
             # Создаем таблицу в базе данных, если она еще не существует

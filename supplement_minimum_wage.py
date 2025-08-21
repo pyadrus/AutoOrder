@@ -28,7 +28,7 @@ def supplement_minimum_wage(data_mounts, file_dog, number_month):
         }
 
         doc.render(context)
-        doc.save(f"data/{data_mounts}/{file_dog}")
+        doc.save(f"data/2025/output/{data_mounts}/{file_dog}")
 
     def prepare_table_data(rows):
         """Подготовка данных для таблицы"""
