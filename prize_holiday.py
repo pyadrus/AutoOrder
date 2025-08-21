@@ -11,7 +11,7 @@ def prize_holiday(data_mounts, file_dog, number_month):
     Премия к празднику
     :param data_mounts: месяц, например 01 или 02
     :param file_dog: название файла шаблона, например Доплата_за_высокие_достижения_в_труде.docx
-    :param number_month: номер месяца для исходных данных, например 01 01_25 или 02 02_25
+    :param number_month: номер месяца для исходных данных, например 01 01 или 02 02
     """
 
     def record_data_salary_downtime_week():
